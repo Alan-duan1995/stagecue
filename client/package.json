@@ -1,6 +1,6 @@
 {
   "name": "stagecue-client",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "StageCue 本地演出音乐与音效客户端",
   "author": "中东中亚IT SSC   Alan",
   "private": true,
@@ -8,7 +8,8 @@
   "scripts": {
     "prepare:app": "node prepare.cjs",
     "start": "node prepare.cjs && electron .",
-    "dist:win": "node prepare.cjs && node build-win.cjs"
+    "dist:win": "node prepare.cjs && node build-win.cjs",
+    "dist:mac": "node prepare.cjs && node build-mac.cjs"
   },
   "devDependencies": {
     "electron": "45.3.2",
@@ -66,7 +67,50 @@
       "en-US",
       "zh-CN"
     ],
-    "afterPack": "./after-pack.cjs"
+    "afterPack": "./after-pack.cjs",
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "StageCue-${version}-mac-${arch}.${ext}",
+      "category": "public.app-category.music",
+      "icon": "assets/icon.png",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "notarize": false,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "StageCue 仅在你选择音频路由时请求音频设备权限，用于识别主声卡和耳机输出，不保存录音。"
+      }
+    },
+    "dmg": {
+      "title": "StageCue ${version}",
+      "contents": [
+        {
+          "x": 145,
+          "y": 160,
+          "type": "file"
+        },
+        {
+          "x": 430,
+          "y": 160,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
   },
   "repository": {
     "type": "git",

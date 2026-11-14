@@ -1,0 +1,85 @@
+name: Build macOS client
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/mac-client.yml'
+      - 'client/**'
+      - 'StageCue.html'
+      - 'tests/mac-client.cjs'
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: macos-15
+          - arch: x64
+            runner: macos-15-intel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+        working-directory: client
+      - name: Build signed application, DMG and ZIP
+        run: npm run dist:mac
+        working-directory: client
+        env:
+          STAGECUE_MAC_ARCH: ${{ matrix.arch }}
+      - name: Verify application and DMG
+        run: |
+          if [ '${{ matrix.arch }}' = arm64 ]; then folder=mac-arm64; else folder=mac; fi
+          codesign --verify --deep --strict --verbose=2 "build/client/$folder/StageCue.app"
+          hdiutil verify build/client/StageCue-*-mac-${{ matrix.arch }}.dmg
+          unzip -t build/client/StageCue-*-mac-${{ matrix.arch }}.zip | tail -1
+          file "build/client/$folder/StageCue.app/Contents/MacOS/StageCue"
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "build/client/$folder/StageCue.app/Contents/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "build/client/$folder/StageCue.app/Contents/Info.plist"
+      - name: Install test tools
+        run: npm ci --ignore-scripts
+        working-directory: tests
+      - name: Test packaged application on matching native architecture
+        run: |
+          if [ '${{ matrix.arch }}' = arm64 ]; then folder=mac-arm64; else folder=mac; fi
+          STAGECUE_MAC_APP="$PWD/build/client/$folder/StageCue.app" node tests/mac-client.cjs
+      - name: Generate checksums
+        run: |
+          cd build/client
+          shasum -a 256 StageCue-*-mac-${{ matrix.arch }}.dmg StageCue-*-mac-${{ matrix.arch }}.zip > StageCue-mac-${{ matrix.arch }}.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stagecue-mac-${{ matrix.arch }}
+          path: |
+            build/client/StageCue-*-mac-${{ matrix.arch }}.dmg
+            build/client/StageCue-*-mac-${{ matrix.arch }}.zip
+            build/client/StageCue-mac-${{ matrix.arch }}.sha256
+          if-no-files-found: error
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stagecue-mac-*
+          merge-multiple: true
+          path: mac-downloads
+      - name: Publish macOS installers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p "require('./client/package.json').version")
+          tag="v${version}-macos"
+          gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" --target "$GITHUB_SHA" --title "StageCue ${version} for macOS" --notes-file docs/macos-release.md
+          gh release upload "$tag" mac-downloads/* --clobber

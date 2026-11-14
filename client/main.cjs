@@ -5,14 +5,18 @@ const fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('n
 app.disableHardwareAcceleration();
 app.commandLine.appendSwitch('disable-features','Vulkan,WebGPU');
 app.setName('StageCue');app.setAppUserModelId('com.itssc.stagecue');
-app.setPath('userData',path.join(app.getPath('appData'),'StageCue Client'));
-const isTest=process.argv.includes('--stagecue-test');let mainWindow=null,allowAudioDevices=false,services=null;
+const isTest=process.argv.includes('--stagecue-test');
+const testData=isTest?process.argv.find(arg=>arg.startsWith('--stagecue-test-data='))?.slice('--stagecue-test-data='.length):null;
+app.setPath('userData',testData&&path.isAbsolute(testData)?testData:path.join(app.getPath('appData'),'StageCue Client'));
+let mainWindow=null,allowAudioDevices=false,services=null;
 const page=path.join(__dirname,'app','StageCue.html'),pageURL=pathToFileURL(page).href;
 function log(message){try{fs.mkdirSync(app.getPath('userData'),{recursive:true});fs.appendFileSync(path.join(app.getPath('userData'),'client.log'),new Date().toISOString()+' '+message+'\n')}catch{}}
 function command(name){const ids={import:'import',backup:'export',restore:'restore',panic:'panic',help:'help',lock:'lock',routing:'routing',preflight:'preflight'};const id=ids[name];if(mainWindow&&id)mainWindow.webContents.executeJavaScript('document.getElementById('+JSON.stringify(id)+')?.click()',true).catch(error=>log('menu command failed '+error.message))}
 function trusted(contents){return contents&&contents===mainWindow?.webContents&&contents.getURL()===pageURL}
-function buildMenu(){Menu.setApplicationMenu(Menu.buildFromTemplate([
- {label:'文件',submenu:[{label:'导入音频',click:()=>command('import')},{label:'导出演出备份',click:()=>command('backup')},{label:'恢复演出备份',click:()=>command('restore')},{type:'separator'},{label:'打开本地数据文件夹',click:()=>shell.openPath(app.getPath('userData'))},{type:'separator'},{label:'退出',role:'quit'}]},
+function buildMenu(){const mac=process.platform==='darwin';Menu.setApplicationMenu(Menu.buildFromTemplate([
+ ...(mac?[{role:'appMenu',label:'StageCue'}]:[]),
+ {label:'文件',submenu:[{label:'导入音频',accelerator:'CmdOrCtrl+I',click:()=>command('import')},{label:'导出演出备份',accelerator:'CmdOrCtrl+Shift+S',click:()=>command('backup')},{label:'恢复演出备份',click:()=>command('restore')},{type:'separator'},{label:'打开本地数据文件夹',click:()=>shell.openPath(app.getPath('userData'))},{type:'separator'},{label:'退出',role:'quit'}]},
+ ...(mac?[{role:'editMenu',label:'编辑'}]:[]),
  {label:'演出',submenu:[{label:'演出锁定 / 解锁',click:()=>command('lock')},{label:'音频路由 / 耳机',click:()=>command('routing')},{label:'演出前素材检查',click:()=>command('preflight')},{type:'separator'},{label:'停止全部声音',click:()=>command('panic')}]},
  {label:'窗口',submenu:[{role:'minimize',label:'最小化'},{role:'togglefullscreen',label:'全屏'},{role:'resetZoom',label:'实际大小'},{role:'zoomIn',label:'放大'},{role:'zoomOut',label:'缩小'}]},
  {label:'帮助',submenu:[{label:'操作与快捷键',click:()=>command('help')},{label:'关于 StageCue',click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:'关于 StageCue',message:'StageCue '+app.getVersion()+' · 本地客户端',detail:'中东中亚IT SSC   Alan\n\n内置桌面运行环境，无需安装 Edge、Chrome 或 Node.js。音频与演出保存在本机；升级或卸载前请导出演出备份。'})}]}
