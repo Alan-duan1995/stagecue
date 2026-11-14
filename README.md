@@ -4,7 +4,7 @@
 
 ## 下载与启动
 
-在 [Releases](https://github.com/Alan-duan1995/stagecue/releases/latest) 下载 `StageCue-Offline.zip`，解压后使用桌面版 Chrome 或 Edge 打开 `StageCue.html`。
+[直接下载 StageCue-Offline.zip](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Offline.zip)，解压后使用桌面版 Chrome 或 Edge 打开 `StageCue.html`。
 
 也可以下载本仓库的 ZIP，解压后直接打开 `StageCue.html`。
 
