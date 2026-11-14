@@ -1,0 +1,7 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),esbuild=require('esbuild');const output=path.join(__dirname,'app');fs.mkdirSync(path.join(output,'vendor'),{recursive:true});
+esbuild.buildSync({entryPoints:[path.join(__dirname,'ui','dsp.js')],bundle:true,format:'iife',globalName:'StageCueDSP',platform:'browser',outfile:path.join(output,'dsp.js'),legalComments:'eof'});
+esbuild.buildSync({entryPoints:[path.join(__dirname,'ui','loudness-worker.js')],bundle:true,platform:'browser',outfile:path.join(output,'loudness-worker.js')});
+fs.copyFileSync(require.resolve('@soundtouchjs/audio-worklet/processor'),path.join(output,'vendor','soundtouch-processor.js'));
+for(const name of ['advanced.js','advanced.css','dialogs.js'])if(fs.existsSync(path.join(__dirname,'ui',name)))fs.copyFileSync(path.join(__dirname,'ui',name),path.join(output,name));
+const notices=path.join(output,'THIRD-PARTY-NOTICES.txt');let text='SoundTouchJS AudioWorklet, unmodified distribution. Source: https://github.com/cutterbl/SoundTouchJS\n\n';for(const name of ['@soundtouchjs/audio-worklet','@soundtouchjs/core','@soundtouchjs/worklet-base','taglib-wasm']){let pkg=path.dirname(require.resolve(name));while(!fs.existsSync(path.join(pkg,'package.json'))&&path.dirname(pkg)!==pkg)pkg=path.dirname(pkg);for(const file of ['LICENSE','NOTICE'])if(fs.existsSync(path.join(pkg,file)))text+='\n=== '+name+' '+file+' ===\n'+fs.readFileSync(path.join(pkg,file),'utf8')}fs.writeFileSync(notices,text);

@@ -4,15 +4,25 @@
 
 ## 下载并安装（Windows 10 / 11，64 位）
 
-**[下载 StageCue 2.1.0 客户端安装程序](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Setup-2.1.0-x64.exe)**
+**[下载 StageCue 3.0.0 客户端安装程序](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Setup-3.0.0-x64.exe)**
 
 下载后双击安装，按向导完成后从桌面或开始菜单打开。客户端内置完整桌面运行环境，**不需要 Edge、Chrome、Node.js 或服务器**，断网也能播放。
 
 支持选择安装目录、创建桌面 / 开始菜单快捷方式、从系统应用列表卸载。默认按当前用户安装，无需管理员权限。
 
-也可使用 [HTML 离线版](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Offline.zip)，它需要浏览器打开。此前 2.0.1 的小体积 EXE 是浏览器启动器；**2.1.0 安装包才是内置运行环境的独立客户端**。
+也可使用 [HTML 离线版](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Offline.zip)，它需要浏览器打开。此前 2.0.1 的小体积 EXE 是浏览器启动器；**3.0.0 安装包是内置运行环境的独立客户端**。
 
-## 功能
+## 3.0 新增
+
+- 每页 48 键、分组分页、拖动、已用状态、随机和列表循环、页面目录。
+- 波形裁切、10 段 EQ、混响、独立变调变速、效果后 LUFS 目标增益。
+- 本地文件夹自动同步、离线重连、音频标签写回及原文件备份。
+- Monitor 私有队列和编辑草稿、定时播报、比赛计时比分及阵容笔记、主题管理。
+- [下载 Stream Deck 插件](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/com.itssc.stagecue.streamDeckPlugin) · [配对说明](docs/streamdeck.md)。
+
+按 Sports Sounds Pro 8 的功能方向实现，**尚未完整等同**：旧 `.SET` 导入未实现，社交为发布草稿，真实 Windows 声卡和 Stream Deck 硬件仍待验收。详见 [功能对照与验证范围](docs/ssp8-coverage.md)。HTML 离线版保留旧版功能，新功能在独立客户端内。
+
+## 基础功能
 
 | 功能 | 用途 |
 | --- | --- |
@@ -41,7 +51,7 @@
 
 | 按键 | 操作 |
 | --- | --- |
-| 1–9 / Q / W / E | 触发前 12 个音频 |
+| 1–9 / Q / W / E | 触发当前页前 12 个音频（可自定义单曲快捷键） |
 | 空格 | 当前音轨播放 / 暂停 |
 | Enter | GO，执行下一条流程 |
 | Esc | 停止所有音轨与耳机预听 |
@@ -50,7 +60,7 @@
 
 ## 电平和声卡
 
-单曲表位于单曲音量 / 增益 / 淡变之后，主音量之前；同曲重复叠加显示实例最大值。主输出两列是 RMS / 峰值。此表是浏览器单声道采样分析，不是真峰值或 LUFS 表。
+单曲表位于单曲音量 / 增益 / 淡变之后，主音量之前；同曲重复叠加显示实例最大值。主输出两列是 RMS / 峰值。实时电平是单声道采样分析，不是真峰值表；新版编辑器另外提供效果后离线 LUFS 分析。
 
 耳机预听需要明确选择两台不同输出设备。设备枚举可能需要一次音频输入授权；客户端会显示权限确认，不保存录音。每次启动重新确认路由，实际声卡分流请先试听。此工具不提供 ASIO 或多通道硬件混音。
 
@@ -60,6 +70,6 @@
 
 安装包、内部载荷、完整运行环境、中文资源、许可文件、卸载程序和内嵌源码已核对。尚未在真实 Windows 上完成安装及声卡验收，安装包未代码签名。
 
-客户端源码及构建方法见 [client/](client/README.md)，测试见 [tests/](tests/README.md)，安装包 SHA256 见 [下载校验](downloads/StageCue-Setup-2.1.0-x64.sha256)。
+客户端源码及构建方法见 [client/](client/README.md)，测试见 [tests/](tests/README.md)，安装包 SHA256 见 [下载校验](downloads/StageCue-Setup-3.0.0-x64.sha256)。
 
 本项目与 Sports Sound Pro 无关联。

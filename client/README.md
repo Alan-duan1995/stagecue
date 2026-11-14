@@ -1,20 +1,23 @@
-# StageCue 2.1 本地客户端
+# StageCue 3.0 本地客户端
 
 这是内置 Electron / Chromium 运行环境的独立桌面客户端。安装后从桌面或开始菜单启动，不需要安装 Edge、Chrome、Node.js 或 Python；音频播放无需联网。
 
 ## Windows 安装
 
-1. 下载 `StageCue-Setup-2.1.0-x64.exe`。
+1. 下载 `StageCue-Setup-3.0.0-x64.exe`。
 2. 双击安装程序，按向导选择安装目录。
 3. 从桌面或开始菜单打开 StageCue。
 4. 如之前使用 HTML 或旧启动器，请先在旧版导出演出备份，再通过客户端菜单“文件 → 恢复演出备份”导入。
 
 面向 Windows 10 / 11 x64，默认仅安装到当前用户，不需要管理员权限。可在系统“已安装的应用”中卸载。卸载配置保留用户数据；重要演出仍请先导出备份。
 
+新版功能和限制见 [SSP 8 对照](../docs/ssp8-coverage.md)，Stream Deck 安装见 [配对指南](../docs/streamdeck.md)。
+
 ## 本地保存
 
 - 客户端独立数据目录：`%APPDATA%\StageCue Client`
 - 音频与设置保存在此目录下的持久化 Chromium 会话中。
+- 素材库索引与配对配置也保存在本地数据目录；授权目录的原始音乐仍保留在原位置。
 - 启动日志：`%APPDATA%\StageCue Client\client.log`
 - 菜单“文件 → 打开本地数据文件夹”可以查看该目录。
 
@@ -46,7 +49,7 @@ npm start
 npm run dist:win
 ```
 
-构建输出位于 `build/client/`，安装文件为 `StageCue-Setup-2.1.0-x64.exe`。源码界面来自根目录 `StageCue.html`，`prepare.cjs` 生成带客户端标题和资源策略的页面。
+构建输出位于 `build/client/`，安装文件为 `StageCue-Setup-3.0.0-x64.exe`。源码界面来自根目录 `StageCue.html`，`prepare.cjs` 生成带客户端标题和资源策略的页面。
 
 Windows 构建使用 electron-builder 原生 NSIS 流程。Linux 构建时，`build-win.cjs` 对中间 NSIS 卸载器使用 electron-builder 自带的 `UninstallerReader`，避免依赖无法运行 32 位程序的 Wine 环境；最终安装器仍由标准 NSIS 流程生成。
 

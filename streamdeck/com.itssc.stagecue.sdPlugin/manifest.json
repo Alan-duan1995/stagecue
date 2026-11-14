@@ -1,0 +1,81 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "Name": "StageCue Live",
+  "UUID": "com.itssc.stagecue",
+  "Version": "3.0.0.0",
+  "Author": "中东中亚IT SSC   Alan",
+  "Description": "StageCue 本地演出客户端：音效触发、实时状态与旋钮控制。",
+  "Category": "StageCue Live",
+  "CategoryIcon": "imgs/category",
+  "Icon": "imgs/plugin",
+  "CodePath": "plugin.cjs",
+  "PropertyInspectorPath": "inspector.html",
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "7.1"
+  },
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Nodejs": {
+    "Version": "24"
+  },
+  "URL": "https://github.com/Alan-duan1995/stagecue",
+  "SupportURL": "https://github.com/Alan-duan1995/stagecue/issues",
+  "Actions": [
+    {
+      "UUID": "com.itssc.stagecue.cue",
+      "Name": "音效按钮",
+      "Icon": "imgs/cue",
+      "Controllers": [
+        "Keypad"
+      ],
+      "Tooltip": "触发当前页位置或固定音效，回显颜色与播放状态。",
+      "States": [
+        {
+          "Image": "imgs/cue",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "UUID": "com.itssc.stagecue.command",
+      "Name": "演出控制",
+      "Icon": "imgs/control",
+      "Controllers": [
+        "Keypad"
+      ],
+      "Tooltip": "播放、暂停、全停、换页、GO、循环、随机、压低与 Monitor。",
+      "States": [
+        {
+          "Image": "imgs/control",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "UUID": "com.itssc.stagecue.dial",
+      "Name": "音量 / 音效旋钮",
+      "Icon": "imgs/dial",
+      "Controllers": [
+        "Encoder"
+      ],
+      "Encoder": {
+        "layout": "$B1",
+        "TriggerDescription": {
+          "Rotate": "调整音量、音高、速度或混响",
+          "Push": "播放 / 暂停",
+          "Touch": "播放 / 暂停"
+        }
+      },
+      "States": [
+        {
+          "Image": "imgs/dial"
+        }
+      ]
+    }
+  ]
+}

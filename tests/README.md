@@ -26,3 +26,11 @@ python native-smoke.py
 先在 client/ 执行 npm ci，再在 tests/ 执行 npm run test:client。该 CI 检查仅在 Linux/X11 中运行，以便隔离 XDG 数据目录（例如使用 Xvfb）；测试使用临时数据目录、模拟音频输入与测试专用 --no-sandbox 参数，生产客户端仍启用渲染沙箱。检查真实 Electron 启动、音频播放、菜单、设置在重启后持久化、离线策略及音频授权流程。
 
 client-menu.cjs 验证文件菜单以有效用户手势触发文件输入、实际音频文件导入，以及通过桌面下载处理器保存有效备份；原生系统选择窗口由自动测试拦截，仍需实机确认。
+
+## 3.0 检查
+
+`node library.cjs`、`node controller.cjs`、`node streamdeck.cjs` 检查真实文件服务与插件协议；`node loudness.cjs` 对照系统 FFmpeg。
+
+在 Linux/X11（可用 Xvfb）中运行 `node advanced-client.cjs`、`node automation-client.cjs`、`node backup-client.cjs`；通过 STAGECUE_ELECTRON 指定 Electron 可执行文件。高级和备份测试支持 STAGECUE_APP 指向构建后的 app.asar，验证真实打包依赖。所有测试使用临时用户配置。
+
+自动化覆盖实际音频 DSP、素材库流式音频、Monitor 隔离、任务取消、备份字节一致性、旧版恢复及输入校验，不代表真实 Windows / 声卡 / 控制器硬件验收。

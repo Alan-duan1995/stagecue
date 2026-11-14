@@ -1,6 +1,6 @@
 {
   "name": "stagecue-client",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "StageCue 本地演出音乐与音效客户端",
   "author": "中东中亚IT SSC   Alan",
   "private": true,
@@ -12,7 +12,8 @@
   },
   "devDependencies": {
     "electron": "45.3.2",
-    "electron-builder": "26.18.0"
+    "electron-builder": "26.18.0",
+    "esbuild": "^0.27.4"
   },
   "build": {
     "appId": "com.itssc.stagecue",
@@ -24,7 +25,9 @@
       "preload.cjs",
       "app/**/*",
       "assets/icon.png",
-      "package.json"
+      "package.json",
+      "services/**/*",
+      "app/THIRD-PARTY-NOTICES.txt"
     ],
     "directories": {
       "output": "../build/client"
@@ -68,5 +71,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Alan-duan1995/stagecue.git"
+  },
+  "dependencies": {
+    "@soundtouchjs/audio-worklet": "^2.1.1",
+    "chokidar": "^6.0.0",
+    "music-metadata": "^12.5.0",
+    "taglib-wasm": "^2.4.1",
+    "ws": "^8.23.0"
   }
 }

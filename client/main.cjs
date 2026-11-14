@@ -1,11 +1,12 @@
 'use strict';
 const {app,BrowserWindow,Menu,dialog,session,shell}=require('electron');
+const {nativeServices}=require('./services/native.cjs');
 const fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
 app.disableHardwareAcceleration();
 app.commandLine.appendSwitch('disable-features','Vulkan,WebGPU');
 app.setName('StageCue');app.setAppUserModelId('com.itssc.stagecue');
 app.setPath('userData',path.join(app.getPath('appData'),'StageCue Client'));
-const isTest=process.argv.includes('--stagecue-test');let mainWindow=null,allowAudioDevices=false;
+const isTest=process.argv.includes('--stagecue-test');let mainWindow=null,allowAudioDevices=false,services=null;
 const page=path.join(__dirname,'app','StageCue.html'),pageURL=pathToFileURL(page).href;
 function log(message){try{fs.mkdirSync(app.getPath('userData'),{recursive:true});fs.appendFileSync(path.join(app.getPath('userData'),'client.log'),new Date().toISOString()+' '+message+'\n')}catch{}}
 function command(name){const ids={import:'import',backup:'export',restore:'restore',panic:'panic',help:'help',lock:'lock',routing:'routing',preflight:'preflight'};const id=ids[name];if(mainWindow&&id)mainWindow.webContents.executeJavaScript('document.getElementById('+JSON.stringify(id)+')?.click()',true).catch(error=>log('menu command failed '+error.message))}
@@ -28,6 +29,7 @@ async function createWindow(){
    const result=await dialog.showMessageBox(mainWindow,{type:'question',title:'获取音频设备',message:'允许 StageCue 获取音频设备列表？',detail:'用于识别主声卡和耳机输出。设备枚举可能短暂启用音频输入，程序不保存录音。',buttons:['允许','取消'],defaultId:1,cancelId:1});allowAudioDevices=result.response===0;callback(allowAudioDevices);return
   }callback(false)
  });
+ services=await nativeServices({directory:app.getPath('userData'),session:local,getWindow:()=>mainWindow,isTrusted:trusted,log});
  local.on('will-download',(_event,item)=>{if(!item.getURL().startsWith('blob:')){item.cancel();return}item.setSaveDialogOptions({title:'保存 StageCue 文件',defaultPath:path.join(app.getPath('documents'),item.getFilename())})});
  mainWindow=new BrowserWindow({width:1500,height:980,minWidth:760,minHeight:640,show:false,title:'StageCue · 本地客户端',backgroundColor:'#101113',autoHideMenuBar:false,icon:path.join(__dirname,'assets','icon.png'),webPreferences:{preload:path.join(__dirname,'preload.cjs'),session:local,contextIsolation:true,nodeIntegration:false,sandbox:true,webSecurity:true,backgroundThrottling:false,devTools:isTest}});
  mainWindow.webContents.setWindowOpenHandler(()=>({action:'deny'}));mainWindow.webContents.on('will-navigate',(event,url)=>{if(url!==pageURL)event.preventDefault()});mainWindow.webContents.on('will-redirect',event=>event.preventDefault());
@@ -40,6 +42,6 @@ async function createWindow(){
 if(!app.requestSingleInstanceLock())app.quit();else{
  app.on('second-instance',()=>{if(mainWindow){if(mainWindow.isMinimized())mainWindow.restore();mainWindow.show();mainWindow.focus()}});
  app.whenReady().then(createWindow).catch(error=>{log(error.stack||error.message);dialog.showErrorBox('StageCue 启动失败',error.message);app.quit()});
- app.on('window-all-closed',()=>app.quit());
+ app.on('window-all-closed',()=>{if(services)services.close().finally(()=>app.quit());else app.quit()});
 }
 process.on('uncaughtException',error=>{log(error.stack||error.message);dialog.showErrorBox('StageCue 客户端错误',error.message)});

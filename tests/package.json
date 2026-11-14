@@ -2,7 +2,9 @@
   "private": true,
   "scripts": {
     "test": "node browser.cjs && node extra.cjs",
-    "test:client": "node electron.cjs && node client-menu.cjs"
+    "test:client": "node electron.cjs && node client-menu.cjs",
+    "test:services": "node library.cjs && node controller.cjs && node streamdeck.cjs && node loudness.cjs",
+    "test:advanced": "node advanced-client.cjs && node automation-client.cjs && node backup-client.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"
