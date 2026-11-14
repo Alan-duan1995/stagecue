@@ -8,3 +8,4 @@ desktop/embedded-app.h
 .zig-cache/
 __pycache__/
 *.pyc
+client/app/
