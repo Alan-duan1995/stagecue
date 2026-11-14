@@ -7,9 +7,9 @@
 ## 下载
 
 - **[HTML 离线版](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Offline.zip)**：解压后用桌面版 Chrome 或 Edge 打开 `StageCue.html`，无需安装或启动服务器。
-- **[Windows x64 启动程序](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Windows-x64.zip)**：解压后运行 `StageCue.exe`。需要电脑已安装 Microsoft Edge 或 Google Chrome；程序会打开独立应用窗口，并使用固定的本地数据目录。
+- **[Windows x64 原生启动程序](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Windows-x64-v2.0.1.zip)**：解压后运行 `StageCue.exe`。需要电脑已安装 Microsoft Edge 或 Google Chrome；程序会打开独立应用窗口，并使用固定的本地数据目录。
 
-Windows 包是内嵌页面的浏览器应用启动程序，不包含浏览器内核。它已完成构建、PE 文件结构和启动逻辑检查，尚未在 Windows 上实机运行。HTML 音频与交互已在 Chromium 中完成自动检查；实际声卡仍需现场测试。
+Windows 2.0.1 包使用约 90 KB 的 C / Win32 原生启动器，替换此前 Node 封装，并附带 HTML 备用入口和启动诊断工具；无需 Node 运行时。已在 Wine 兼容环境运行，验证页面提取与浏览器启动参数，尚未在真实 Windows 上运行 Edge 窗口。HTML 音频与交互已在 Chromium 中完成自动检查；实际声卡仍需现场测试。
 
 ## v2 功能
 
@@ -68,6 +68,11 @@ Windows 包是内嵌页面的浏览器应用启动程序，不包含浏览器内
 
 已在真实 Chromium 音频图中检查：持久化、增益与裁切、预警、演出锁定、GO、自动续播边界、单曲切换、交叉淡变、音效叠加、实时电平、主持压低、错误素材隔离、待加载播放取消、旧备份迁移与新备份恢复、真实素材解码、手机宽度布局。
 
-预听使用模拟设备 API 检查独立音频图和失败隔离；实际耳机与声卡路由未完成硬件验收。Windows 启动程序尚未在 Windows 实机运行。自动检查源码见 `tests/`。
+预听使用模拟设备 API 检查独立音频图和失败隔离；实际耳机与声卡路由未完成硬件验收。Windows 原生启动程序已执行 Wine 冒烟测试，尚未在 Windows 实机运行。自动检查源码见 `tests/`。
 
 本项目是独立工具，与 Sports Sound Pro 无关联。
+
+
+## Windows 2.0.1 启动修复
+
+针对“双击无反应”，替换为 C / Win32 原生启动器，新增具体错误提示、启动日志与 `Diagnose-StageCue.cmd`；支持注册表中的自定义浏览器安装位置。ZIP 中附带 `StageCue.html` 和 `Start-StageCue.cmd` 备用入口。解压完整 ZIP 后使用新 EXE，不要继续运行之前的旧程序。原音频功能保持不变。

@@ -3,7 +3,7 @@ StageCue 2.0 · 本地演出音控台
 
 【启动】
 HTML 版：解压到固定文件夹，用桌面版 Chrome 或 Edge 打开 StageCue.html，断网可用，无需服务器。
-Windows x64 版：运行 StageCue.exe；需要已安装 Edge 或 Chrome。程序会使用独立窗口和固定的本地数据目录。当前 EXE 已构建并核对结构及启动逻辑，尚未在 Windows 实机运行。
+Windows x64 版：运行 StageCue.exe；需要已安装 Edge 或 Chrome。程序会使用独立窗口和固定的本地数据目录。2.0.1 使用约 90 KB 的原生启动器，无需 Node 运行时；已在 Wine 兼容环境验证启动流程，真实 Windows 窗口与声卡仍需实机确认。
 
 【升级与备份】
 替换旧版前先导出演出备份。新版支持恢复 v1 / v2 备份。
@@ -48,3 +48,6 @@ Esc：停止全部声音，含耳机预听
 右键音效垫：编辑设置
 
 内置音频是合成试听素材。正式演出请导入自己的音频，并提前测试实际电脑与声卡输出。
+
+【Windows 2.0.1 启动修复】
+请解压完整 ZIP 并使用新 StageCue.exe。仍无反应时运行 Diagnose-StageCue.cmd，查看日志；也可直接用 Edge / Chrome 打开包中的 StageCue.html。原 EXE 数据目录不变。使用 HTML 备用入口时，需要通过演出备份迁移原库。

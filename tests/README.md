@@ -8,4 +8,14 @@ npx playwright install chromium
 npm test
 ```
 
-也可以通过 CHROMIUM_PATH 指定已安装的 Chromium / Chrome。测试启动临时本地 HTTP 服务并使用独立的浏览器上下文，不读取你的演出库。设备路由测试使用模拟输出 API，不能替代真实声卡测试。Windows 启动器仅验证逻辑，不执行 EXE。
+也可以通过 CHROMIUM_PATH 指定已安装的 Chromium / Chrome。测试启动临时本地 HTTP 服务并使用独立的浏览器上下文，不读取你的演出库。设备路由测试使用模拟输出 API，不能替代真实声卡测试。原生 Windows 启动器的 Wine 冒烟检查另见 native-smoke.py，需要 Zig 与 Wine；此检查会执行 EXE 并用测试浏览器验证启动路径，不替代真实 Windows / 声卡测试。
+
+
+原生启动器冒烟测试（独立临时 Wine 环境）：
+
+```sh
+python ../desktop/build-native.py
+python native-smoke.py
+```
+
+通过 WINE 和 ZIG 环境变量指定工具路径；测试会编译并启动假的浏览器程序来检查命令行与路径，不启动真实 Edge，也不读取现有 Wine 用户库。

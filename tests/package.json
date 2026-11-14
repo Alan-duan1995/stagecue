@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "test": "node launcher.cjs && node browser.cjs && node extra.cjs"
+    "test": "node browser.cjs && node extra.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"

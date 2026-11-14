@@ -4,3 +4,7 @@ Thumbs.db
 node_modules/
 build/
 desktop/StageCue.html
+desktop/embedded-app.h
+.zig-cache/
+__pycache__/
+*.pyc
