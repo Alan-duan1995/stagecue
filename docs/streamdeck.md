@@ -1,6 +1,6 @@
 # Stream Deck 配对
 
-1. 安装 StageCue 3.0，以及 Elgato Stream Deck 7.1 或更新版本。
+1. 安装 StageCue 3.0 或更新版本（Windows / macOS），以及 Elgato Stream Deck 7.1 或更新版本。
 2. 下载并双击 [StageCue Live 插件](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/com.itssc.stagecue.streamDeckPlugin)，在 Stream Deck 中安装。
 3. 打开 StageCue 左侧的 **Stream Deck**，启用本地控制并复制配对码；记下界面显示的端口。
 4. 在 Stream Deck 的 StageCue Live 分类拖入音效、命令或旋钮动作。在属性面板填写端口、配对码并保存。

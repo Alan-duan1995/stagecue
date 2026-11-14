@@ -34,3 +34,7 @@ client-menu.cjs 验证文件菜单以有效用户手势触发文件输入、实�
 在 Linux/X11（可用 Xvfb）中运行 `node advanced-client.cjs`、`node automation-client.cjs`、`node backup-client.cjs`；通过 STAGECUE_ELECTRON 指定 Electron 可执行文件。高级和备份测试支持 STAGECUE_APP 指向构建后的 app.asar，验证真实打包依赖。所有测试使用临时用户配置。
 
 自动化覆盖实际音频 DSP、素材库流式音频、Monitor 隔离、任务取消、备份字节一致性、旧版恢复及输入校验，不代表真实 Windows / 声卡 / 控制器硬件验收。
+
+## macOS 安装包检查
+
+GitHub Actions 在 `macos-15`（Apple 芯片）和 `macos-15-intel`（Intel）分别构建 DMG / ZIP，并校验代码签名、磁盘映像、架构和版本。`mac-client.cjs` 直接启动打包后的 StageCue.app，检查播放 / DSP、Mac 菜单、素材库、控制服务、导出和重启持久化。测试数据在独立临时目录，不读取正常演出库。需通过 STAGECUE_MAC_APP 指定 .app 路径。

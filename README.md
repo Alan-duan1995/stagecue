@@ -12,6 +12,13 @@
 
 也可使用 [HTML 离线版](https://github.com/Alan-duan1995/stagecue/raw/refs/heads/main/downloads/StageCue-Offline.zip)，它需要浏览器打开。此前 2.0.1 的小体积 EXE 是浏览器启动器；**3.0.0 安装包是内置运行环境的独立客户端**。
 
+## macOS 版本（3.0.1，macOS 13 或更新版本）
+
+- [Apple 芯片 M 系列安装包](https://github.com/Alan-duan1995/stagecue/releases/download/v3.0.1-macos/StageCue-3.0.1-mac-arm64.dmg)
+- [Intel Mac 安装包](https://github.com/Alan-duan1995/stagecue/releases/download/v3.0.1-macos/StageCue-3.0.1-mac-x64.dmg)
+
+打开 DMG，把 StageCue 拖到“应用程序”即可。[首次打开与安装说明](docs/macos.md) · [ZIP / 校验文件](https://github.com/Alan-duan1995/stagecue/releases/tag/v3.0.1-macos)。当前为本地签名，未做 Apple 开发者公证，首次启动可能需要在系统设置中允许。
+
 ## 3.0 新增
 
 - 每页 48 键、分组分页、拖动、已用状态、随机和列表循环、页面目录。
@@ -45,7 +52,7 @@
 2. 安装并打开客户端。
 3. 通过“文件 → 恢复演出备份”导入。
 
-客户端的库与旧版浏览器库独立，升级前请先备份。客户端使用 `%APPDATA%\StageCue Client` 保存本地数据；启动日志为其中的 `client.log`。菜单可直接打开该目录。音乐不上传。
+客户端的库与旧版浏览器库独立，升级前请先备份。Windows 客户端使用 `%APPDATA%\StageCue Client` 保存本地数据；启动日志为其中的 `client.log`。菜单可直接打开该目录。音乐不上传。
 
 ## 快捷键
 

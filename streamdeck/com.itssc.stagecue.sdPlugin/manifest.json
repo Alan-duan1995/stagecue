@@ -21,7 +21,7 @@
     },
     {
       "Platform": "mac",
-      "MinimumVersion": "12"
+      "MinimumVersion": "13"
     }
   ],
   "Nodejs": {
