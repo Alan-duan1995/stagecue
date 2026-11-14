@@ -87,7 +87,7 @@
       ],
       "artifactName": "StageCue-${version}-mac-${arch}.${ext}",
       "category": "public.app-category.music",
-      "icon": "assets/icon.png",
+      "icon": "assets/icon-mac.png",
       "identity": "-",
       "hardenedRuntime": false,
       "notarize": false,
