@@ -1,7 +1,9 @@
-StageCue 3.0.1 macOS 本地演出音乐客户端（macOS 13 或更新版本）
+StageCue 3.0.2 macOS 本地演出音乐客户端（macOS 13 或更新版本）
 
 署名：中东中亚IT SSC   Alan
 
+- 新增播放中的整曲真实强弱波形、已播放高亮、原曲时间刻度、IN / OUT 范围及当前播放指针。
+- 放大剩余时间、已播放时间和总时长，方便远距离查看。
 - Apple 芯片 M 系列选择 `mac-arm64.dmg`；Intel Mac 选择 `mac-x64.dmg`。
 - 打开 DMG，将 StageCue 拖到 Applications（应用程序），弹出磁盘映像后从应用程序启动。
 - 内置运行环境，无需登录、浏览器或服务器，可离线使用。功能包含音频编辑、素材库同步、48 键分页、电平、Monitor、定时任务和比赛辅助。

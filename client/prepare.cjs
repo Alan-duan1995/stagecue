@@ -4,8 +4,12 @@ const app=path.join(__dirname,'app');fs.mkdirSync(app,{recursive:true});let html
 html=html.replace('<title>',`<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src 'self' data: blob: stagecue-audio:; connect-src 'self' data: blob: stagecue-audio:; worker-src 'self' blob:; img-src 'self' data: blob:; object-src 'none'; base-uri 'none'"><title>`);
 html=html.replace(/<title>.*?<\/title>/,'<title>StageCue · 专业演出客户端</title>').replace('LIVE SOUND WORKSTATION','DESKTOP CLIENT · LIVE CONTROL').replace('STAGECUE v2.0','STAGECUE CLIENT v3.0');
 html=html.replace('</head>',`<link rel="stylesheet" href="advanced.css"></head>`).replace('<script>','<script src="dsp.js"></script><script src="dialogs.js"></script><script>');
-html=html.replace('</body>','<script src="advanced.js"></script></body>');
+html=html.replace('</body>','<script src="playback-wave.js"></script><script src="advanced.js"></script></body>');
 function change(before,after){if(!html.includes(before))throw Error('Core hook no longer matches: '+before.slice(0,80));html=html.replace(before,after)}
+// Draw the decoded full-song envelope; keep meters and transport timing in the core loop.
+change("const w=canvas.width=canvas.clientWidth*devicePixelRatio,h=canvas.height=75*devicePixelRatio;", "const w=Math.round(canvas.clientWidth*devicePixelRatio),h=Math.round(canvas.clientHeight*devicePixelRatio);if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;");
+change("if(active&&!a.paused){v.levelAnalyser.getFloatTimeDomainData(v.levelSamples);g.strokeStyle='#c3f76b';g.lineWidth=devicePixelRatio;g.beginPath();for(let i=0;i<w;i+=2*devicePixelRatio){const index=Math.floor(i/w*v.levelSamples.length),y=h/2-v.levelSamples[index]*h*.45;if(i===0)g.moveTo(i,y);else g.lineTo(i,y)}g.stroke()}else{g.fillStyle='#465038';g.fillRect(0,h/2,w,devicePixelRatio)}", "window.StageCueWave?.draw({voice:v,width:w,height:h,context:g});");
+html=html.replace('<div class="time"><span id="elapsed">','<div class="time"><span class="playback-time-label">已播</span> <span id="elapsed">').replace('<small> / <span id="duration">','<small> / <span class="playback-time-label">总长</span> <span id="duration">');
 change('function applyState(d){','function applyState(d){window.__stagecueSavedState=d;');
 change('function releaseVoice(v){if(!v||v.disposed)return;','function releaseVoice(v){if(!v||v.disposed)return;v.fx?.dispose();');
 change('url=URL.createObjectURL(item.blob||demoBlob(item));audio=new Audio(url);',"url=item.libraryId?window.stagecueClient.mediaURL(item.libraryId):URL.createObjectURL(item.blob||demoBlob(item));audio=new Audio();audio.crossOrigin='anonymous';audio.src=url;");

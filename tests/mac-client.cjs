@@ -13,15 +13,15 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),asse
   page.on('pageerror',e=>errors.push(e.message));
   await page.waitForFunction(()=>document.body.dataset.advancedReady==='true',null,{timeout:60000});
   assert.equal(await page.evaluate(()=>stagecueClient.platform),'darwin');
-  assert.equal(await page.evaluate(()=>stagecueClient.version),'3.0.1');
+  assert.equal(await page.evaluate(()=>stagecueClient.version),require('../client/package.json').version);
   assert.equal(await page.evaluate(()=>typeof require),'undefined');
   const settings=await app.evaluate(({app,BrowserWindow,Menu})=>{const p=BrowserWindow.getAllWindows()[0].webContents.getLastWebPreferences();return {data:app.getPath('userData'),version:app.getVersion(),sandbox:p.sandbox,isolated:p.contextIsolation,node:p.nodeIntegration,menus:Menu.getApplicationMenu().items.map(i=>i.label)}});
-  assert.equal(settings.data,profile);assert.equal(settings.version,'3.0.1');
+  assert.equal(settings.data,profile);assert.equal(settings.version,require('../client/package.json').version);
   assert(settings.sandbox&&settings.isolated&&!settings.node);assert(settings.menus.includes('编辑'));assert.equal(settings.menus[0],'StageCue');
   await page.locator('[data-trigger=demo0]').click();
   await page.waitForFunction(()=>current&&!preparing&&!current.audio.paused,null,{timeout:30000});
   await page.waitForFunction(()=>current.audio.currentTime>.2,null,{timeout:15000});
-  await page.locator('#panic-header').click();assert.equal(await page.evaluate(()=>voices.length),0);
+  await page.waitForFunction(()=>StageCueWave.snapshot().status==='ready',null,{timeout:30000});assert(await page.evaluate(()=>StageCueWave.snapshot().peaks.some(v=>v>0)));await page.locator('#panic-header').click();assert.equal(await page.evaluate(()=>voices.length),0);
   const dsp=await page.evaluate(async()=>{const b=new AudioBuffer({numberOfChannels:1,length:48000,sampleRate:48000});for(let i=0;i<48000;i++)b.getChannelData(0)[i]=.1*Math.sin(2*Math.PI*440*i/48000);const out=await StageCueDSP.renderEffects(b,{pitch:12,tempo:1.25});return {duration:out.duration,finite:out.getChannelData(0).every(Number.isFinite),energy:out.getChannelData(0).some(v=>Math.abs(v)>.01)}});
   assert(Math.abs(dsp.duration-.8)<.02);assert(dsp.finite&&dsp.energy);
   const audio=await page.evaluate(async()=>Array.from(new Uint8Array(await demoBlob(items[0]).arrayBuffer())));

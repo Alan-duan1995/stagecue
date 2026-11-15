@@ -47,10 +47,13 @@ jobs:
       - name: Install test tools
         run: npm ci --ignore-scripts
         working-directory: tests
+      - name: Check exact waveform envelopes
+        run: node tests/waveform.cjs
       - name: Test packaged application on matching native architecture
         run: |
           if [ '${{ matrix.arch }}' = arm64 ]; then folder=mac-arm64; else folder=mac; fi
           STAGECUE_MAC_APP="$PWD/build/client/$folder/StageCue.app" node tests/mac-client.cjs
+          STAGECUE_MAC_APP="$PWD/build/client/$folder/StageCue.app" node tests/waveform-client.cjs
       - name: Generate checksums
         run: |
           cd build/client
