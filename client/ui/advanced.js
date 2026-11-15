@@ -136,5 +136,5 @@ if(native?.library){native.library.onChange(syncLibrary);native.library.onError(
 if(native?.controller)native.controller.onChange(state=>{if($('#controller-connected'))$('#controller-connected').textContent=state.connected;if($('#controller-port'))$('#controller-port').value=state.port});
 setInterval(clockTick,100);setInterval(()=>schedulerTick().catch(e=>toast(e.message)),100);setInterval(()=>reportController(),150);
 window.stagecueAdvanced={getState:()=>structuredClone({...A,monitor}),pickPage,addLibraryCue,openEditor,openLibrary,openCatalog,openClock,openSchedule,openMonitor,openThemes,openController,normalization:StageCueDSP.normalizationFor};
-document.body.dataset.advancedReady='true';
+document.body.dataset.advancedReady='true';window.dispatchEvent(new Event('stagecue-advanced-ready'));
 })().catch(error=>{console.error(error);document.body.dataset.advancedError=error.message;const toast=document.querySelector('#toast');if(toast){toast.textContent='高级控制台加载失败：'+error.message;toast.style.display='block'}});

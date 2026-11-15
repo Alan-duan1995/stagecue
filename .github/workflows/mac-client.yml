@@ -8,6 +8,7 @@ on:
       - 'client/**'
       - 'StageCue.html'
       - 'tests/mac-client.cjs'
+      - 'tests/show-client.cjs'
 permissions:
   contents: read
 jobs:
@@ -54,6 +55,7 @@ jobs:
           if [ '${{ matrix.arch }}' = arm64 ]; then folder=mac-arm64; else folder=mac; fi
           STAGECUE_MAC_APP="$PWD/build/client/$folder/StageCue.app" node tests/mac-client.cjs
           STAGECUE_MAC_APP="$PWD/build/client/$folder/StageCue.app" node tests/waveform-client.cjs
+          STAGECUE_MAC_APP="$PWD/build/client/$folder/StageCue.app" node tests/show-client.cjs
       - name: Generate checksums
         run: |
           cd build/client

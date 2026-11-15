@@ -11,7 +11,7 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),asse
  try{
   app=await launch();let page=await app.firstWindow();const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
-  await page.waitForFunction(()=>document.body.dataset.advancedReady==='true',null,{timeout:60000});
+  await page.waitForFunction(()=>document.body.dataset.advancedReady==='true',null,{timeout:60000});await page.waitForFunction(()=>document.body.dataset.showReady==='true');await page.locator('#show-prepare-mode').click();
   assert.equal(await page.evaluate(()=>stagecueClient.platform),'darwin');
   assert.equal(await page.evaluate(()=>stagecueClient.version),require('../client/package.json').version);
   assert.equal(await page.evaluate(()=>typeof require),'undefined');

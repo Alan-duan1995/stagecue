@@ -1,6 +1,6 @@
 {
   "name": "stagecue-client",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "description": "StageCue 本地演出音乐与音效客户端",
   "author": "中东中亚IT SSC   Alan",
   "private": true,

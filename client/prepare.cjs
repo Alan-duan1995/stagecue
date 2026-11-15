@@ -4,7 +4,7 @@ const app=path.join(__dirname,'app');fs.mkdirSync(app,{recursive:true});let html
 html=html.replace('<title>',`<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src 'self' data: blob: stagecue-audio:; connect-src 'self' data: blob: stagecue-audio:; worker-src 'self' blob:; img-src 'self' data: blob:; object-src 'none'; base-uri 'none'"><title>`);
 html=html.replace(/<title>.*?<\/title>/,'<title>StageCue · 专业演出客户端</title>').replace('LIVE SOUND WORKSTATION','DESKTOP CLIENT · LIVE CONTROL').replace('STAGECUE v2.0','STAGECUE CLIENT v3.0');
 html=html.replace('</head>',`<link rel="stylesheet" href="advanced.css"></head>`).replace('<script>','<script src="dsp.js"></script><script src="dialogs.js"></script><script>');
-html=html.replace('</body>','<script src="playback-wave.js"></script><script src="advanced.js"></script></body>');
+html=html.replace('</body>','<script src="playback-wave.js"></script><script src="advanced.js"></script><script src="show-console.js"></script></body>');
 function change(before,after){if(!html.includes(before))throw Error('Core hook no longer matches: '+before.slice(0,80));html=html.replace(before,after)}
 // Draw the decoded full-song envelope; keep meters and transport timing in the core loop.
 change("const w=canvas.width=canvas.clientWidth*devicePixelRatio,h=canvas.height=75*devicePixelRatio;", "const w=Math.round(canvas.clientWidth*devicePixelRatio),h=Math.round(canvas.clientHeight*devicePixelRatio);if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;");

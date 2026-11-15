@@ -63,6 +63,5 @@
  }
  canvas.onpointermove=e=>{if(!envelope)return;const fraction=clamp((e.clientX-canvas.getBoundingClientRect().left)/canvas.clientWidth,0,1),index=Math.min(envelope.peaks.length-1,Math.floor(fraction*envelope.peaks.length)),peak=envelope.peaks[index],db=peak>0?(20*Math.log10(peak)).toFixed(1):'−∞';hover.textContent='原曲位置 '+clock(envelope.duration*fraction)+' · 此处源峰值 '+db+' dBFS'};
  canvas.onpointerleave=()=>{hover.textContent='波形越高，源音频越响；下方进度条可调整播放位置。'};
- window.addEventListener('beforeunload',cancel);
  window.StageCueWave={draw,snapshot:()=>({status:phase,id:activeVoice?.item.id,duration:envelope?.duration||0,position,bounds:drawBounds,peaks:envelope?Array.from(envelope.peaks):[],rms:envelope?Array.from(envelope.rms):[]})};
 })();
