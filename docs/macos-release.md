@@ -1,4 +1,4 @@
-StageCue 3.1.0 macOS 本地演出音乐客户端（macOS 13 或更新版本）
+StageCue 3.1.1 macOS 本地演出音乐客户端（macOS 13 或更新版本）
 
 署名：中东中亚IT SSC   Alan
 
