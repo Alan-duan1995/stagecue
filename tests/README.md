@@ -38,3 +38,7 @@ client-menu.cjs 验证文件菜单以有效用户手势触发文件输入、实�
 ## macOS 安装包检查
 
 GitHub Actions 在 `macos-15`（Apple 芯片）和 `macos-15-intel`（Intel）分别构建 DMG / ZIP，并校验代码签名、磁盘映像、架构和版本。`mac-client.cjs` 直接启动打包后的 StageCue.app，检查播放 / DSP、Mac 菜单、素材库、控制服务、导出和重启持久化。测试数据在独立临时目录，不读取正常演出库。需通过 STAGECUE_MAC_APP 指定 .app 路径。
+
+## 整曲波形
+
+`node waveform.cjs` 检查全采样峰值、立体声 RMS、单采样脉冲及分块边界。`node waveform-client.cjs` 使用已知强弱分段的双声道音频检查真实显示数据、全曲/裁切/变速位置、暂停、跳转、完成位置、大号时间、切歌取消和失败时播放隔离；支持 STAGECUE_MAC_APP 检查打包后的 Mac 应用。
