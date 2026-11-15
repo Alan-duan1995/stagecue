@@ -1,15 +1,15 @@
 # 在 Mac 上安装 StageCue
 
-StageCue 3.0.2 是独立的 macOS 桌面应用，要求 macOS 13 Ventura 或更新版本。内置 Electron 运行环境，安装后可离线使用，无需登录或安装浏览器。署名：中东中亚IT SSC   Alan。
+StageCue 3.1.1 是独立的 macOS 桌面应用，要求 macOS 13 Ventura 或更新版本。内置 Electron 运行环境，安装后可离线使用，无需登录或安装浏览器。署名：中东中亚IT SSC   Alan。
 
 ## 选择下载
 
 打开苹果菜单 → 关于本机：
 
-- 显示 Apple M1 / M2 / M3 / M4 等 Apple 芯片：下载 [Apple 芯片 DMG](https://github.com/Alan-duan1995/stagecue/releases/download/v3.0.2-macos/StageCue-3.0.2-mac-arm64.dmg)。
-- 显示 Intel 处理器：下载 [Intel DMG](https://github.com/Alan-duan1995/stagecue/releases/download/v3.0.2-macos/StageCue-3.0.2-mac-x64.dmg)。
+- 显示 Apple M1 / M2 / M3 / M4 等 Apple 芯片：下载 [Apple 芯片 DMG](https://github.com/Alan-duan1995/stagecue/releases/download/v3.1.1-macos/StageCue-3.1.1-mac-arm64.dmg)。
+- 显示 Intel 处理器：下载 [Intel DMG](https://github.com/Alan-duan1995/stagecue/releases/download/v3.1.1-macos/StageCue-3.1.1-mac-x64.dmg)。
 
-[发布页](https://github.com/Alan-duan1995/stagecue/releases/tag/v3.0.2-macos) 另有 ZIP 和 SHA256 校验文件。
+[发布页](https://github.com/Alan-duan1995/stagecue/releases/tag/v3.1.1-macos) 另有 ZIP 和 SHA256 校验文件。
 
 ## 安装和首次打开
 
@@ -44,4 +44,4 @@ npm run dist:mac
 
 默认生成 Apple 芯片和 Intel 两套 DMG / ZIP；可用 `STAGECUE_MAC_ARCH=arm64` 或 `x64` 单独构建。GitHub Actions 在两类原生 Mac 构建机上校验签名、DMG、ZIP、架构并直接运行打包后的应用，检查播放、DSP、素材库、导出和重启持久化。
 
-[本版本验证记录](validation-macos-3.0.2.md)。自动检查不能替代外接声卡、实体 Stream Deck 和你使用的 macOS 版本上的演出验收。与 Sports Sounds Pro 的功能差异见 [功能对照](ssp8-coverage.md)。
+[本版本验证记录](validation-macos-3.1.1.md)。自动检查不能替代外接声卡、实体 Stream Deck 和你使用的 macOS 版本上的演出验收。与 Sports Sounds Pro 的功能差异见 [功能对照](ssp8-coverage.md)。

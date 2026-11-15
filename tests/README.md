@@ -42,3 +42,7 @@ GitHub Actions 在 `macos-15`（Apple 芯片）和 `macos-15-intel`（Intel）�
 ## 整曲波形
 
 `node waveform.cjs` 检查全采样峰值、立体声 RMS、单采样脉冲及分块边界。`node waveform-client.cjs` 使用已知强弱分段的双声道音频检查真实显示数据、全曲/裁切/变速位置、暂停、跳转、完成位置、大号时间、切歌取消和失败时播放隔离；支持 STAGECUE_MAC_APP 检查打包后的 Mac 应用。
+
+## 年会演出模式
+
+`node show-client.cjs` 检查默认简洁界面、演出锁定、音效待命/GO、重复 GO 保护、820 px 窄窗口中的主持压低、准备/演出切换时清除隐藏过滤、非音频环节计时且保持背景音乐、超时、独立暂停计时、全停、保存和安全重启。可通过 STAGECUE_MAC_APP 直接测试打包后的 Mac 应用。其他编辑/素材/波形检查显式进入准备模式，验证原功能保留。
